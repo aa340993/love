@@ -125,7 +125,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src='js/Valine.min.js'></script><!-- Valine 评论系统 -->
 
-    <!-- 计时器 -->
+
     <script>
         function timer() {
             var start = new Date(2024, 1, 46, 00, 00, 00); // 2020.07.31 13:14:00
@@ -155,23 +155,23 @@
     <script>
         var oComments = document.querySelector("#comments");
         var oCommentsTop = Math.round(oComments.offsetTop);
-        //运动框架
+  
         function move() {
-            // 1. 关闭开启定时器;
+
             clearInterval(timer);
             var timer = setInterval(function () {
-                // 2. 计算速度;
+   
                 var iNow = document.documentElement.scrollTop || document.body.scrollTop; //100
                 iNow = Math.round(iNow);
                 var speed = (oCommentsTop - iNow) / 10;
-                // 3. 速度取整;
+ 
                 if (speed > 0) {
                     speed = Math.ceil(speed);
                 } else {
                     speed = Math.floor(speed);
                 }
                 document.documentElement.scrollTop = document.body.scrollTop = iNow + speed + 1;
-                // 4. 终止条件;
+
                 if (iNow >= oCommentsTop) {
                     clearInterval(timer);
                 }
@@ -181,9 +181,7 @@
         to_comments.onclick = move;
     </script>
 
-    <!-- 情话接口 -->
     <script>
-        //进入页面时请求
         $.ajax({
             url: 'php/love.php',
             type: "GET",
@@ -237,7 +235,6 @@
         });
     </script>
 
-    <!-- Valine 评论系统； 由 LeanCloud 管理数据 -->
     <script>
         new Valine({
             el: '#vcomments',
