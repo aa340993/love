@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="row">
-                    <p class="copy text-center col-xs-12 col-sm-12">本網站由ig:lin_.lol_發明 林小綱 愛 林小熙 本網站由ig:lin_.lol_發明</p>
+                    <p class="copy text-center col-xs-12 col-sm-12"></p>
                 </div>
 
                 <div id="hans-bolang"></div>
@@ -112,14 +112,6 @@
         </div>
     </div>
 
-    <div class="container-fluid" id="comments">
-        <div class="row comment">
-            <div class="col-xs-10 col-sm-10 col-md-6 col-xs-push-1 col-sm-push-1 col-md-push-3">
-                <h2>留言：</h2>
-                <div id="vcomments"></div>
-            </div>
-        </div>
-    </div>
 
     <script src="js/jquery-1.11.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -128,7 +120,7 @@
     <!-- 计时器 -->
     <script>
         function timer() {
-            var start = new Date(2024, 1, 46, 00, 00, 00); // 2020.07.31 13:14:00
+            var start = new Date(2024, 10, 14, 00, 00, 00); // 2020.07.31 13:14:00
             var t = new Date() - start;
             var h = ~~(t / 1000 / 60 / 60 % 24);
             if (h < 10) {
@@ -240,9 +232,9 @@
     <!-- Valine 评论系统； 由 LeanCloud 管理数据 -->
     <script>
         new Valine({
-            el: '#vcomments',
-            appId: 'jARgjrXeQDNMyVZDwypESCna-gzGzoHsz',
-            appKey: 'oebDHPrHmnUUqM6PMwe6LSX8'
+            el: '',
+            appId: '',
+            appKey: ''
         })
     </script>
 
