@@ -17,7 +17,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-image: url('https://i.ibb.co/5W5Zrwkq/FEFE6-A1-D-7909-4-EDE-891-C-07-E1415-DA035.jpg');
+      background-image: url('照片.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -191,9 +191,23 @@
     bgMusic.src = playlist[current];
   }
 
+  // 嘗試自動播放
   window.addEventListener('load', () => {
     loadMusic();
+    setTimeout(() => {
+      bgMusic.play().catch(() => {
+        console.log('需點擊頁面才能播放');
+      });
+    }, 300);
   });
+
+  // 點一下頁面就播放
+  document.body.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      playBtn.textContent = '暫停';
+    }
+  }, { once: true });
 
   musicBtn.addEventListener('click', () => {
     musicPanel.classList.toggle('show');
