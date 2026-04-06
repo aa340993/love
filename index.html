@@ -1,243 +1,250 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="zh-TW">
 <head>
-    <!-- Copyright © 2020 by www.x6k.com -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我們戀愛了</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>我們的愛情時光</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft JhengHei", sans-serif;
+    }
 
-        .wrap {
-            position: relative;
-            height: 100%;
-            width: 100%;
-            background-image: url(img/79ed116b-b1dc-4121-93f1-ece6d4c97f39.png);
-            background-size: cover;
-            background-position: center;
-        }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://i.ibb.co/5W5Zrwkq/FEFE6-A1-D-7909-4-EDE-891-C-07-E1415-DA035.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
 
-        .wrap-son {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 1;
-            background: rgba(59, 59, 59, 0.3);
-        }
+    .love-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      border-radius: 28px;
+      padding: 45px 35px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 520px;
+      width: 90%;
+    }
 
-        .jumbotron {
-            background: rgba(255, 255, 255, 0);
-            color: #f5f5f5;
-        }
+    .heart {
+      color: #ff4d75;
+      font-size: 42px;
+      margin-bottom: 12px;
+      animation: heartbeat 1.4s infinite;
+    }
 
-        .love {
-            color: #ffffff;
-            margin: 0 20px;
-            line-height: 1.3;
-            font-weight: 300;
-        }
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
 
-        .hans-container {
-            position: fixed;
-            bottom: 0px;
-            width: 100%;
-            height: 120px;
-            z-index: 1;
-        }
+    .title {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
 
-        .timer b {
-            font-size: 100px;
-        }
+    .days {
+      font-size: 68px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
 
-        #s {
-            font-size: 100px;
-        }
+    .time {
+      font-size: 20px;
+    }
 
-        #updatalove,
-        #to_comments {
-            margin: 0 10px;
-        }
+    .music-ball {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #ff4d75;
+      color: white;
+      font-size: 26px;
+      border: none;
+      cursor: pointer;
+      z-index: 9999;
+    }
 
-        .copy {
-            position: absolute;
-            bottom: 0;
-            color: #ffffff;
-            font-size: 12px;
-        }
+    .music-panel {
+      position: fixed;
+      bottom: 95px;
+      right: 22px;
+      width: 230px;
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 9999;
+    }
 
-        /* 评论 */
-        .comment {
-            margin-top: 50px;
-            margin-bottom: 100px;
-        }
-    </style>
+    .music-panel.show {
+      display: block;
+    }
+
+    .music-title {
+      text-align: center;
+      font-weight: bold;
+      color: #ff4d75;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .controls button {
+      flex:1;
+      padding: 10px 0;
+      border:none;
+      border-radius: 10px;
+      background: #f6f6f6;
+      font-size:14px;
+      cursor: pointer;
+    }
+
+    .speed {
+      display: flex;
+      gap:6px;
+      justify-content: center;
+    }
+
+    .speed button {
+      padding: 6px 9px;
+      border:none;
+      border-radius:8px;
+      background:#eee;
+      font-size:13px;
+    }
+
+    .speed button.active {
+      background:#ff4d75;
+      color:white;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="wrap">
-        <div class="wrap-son">
-            <div class="container-fluid">
-                <div class="box">
-                    <div class="jumbotron text-center">
-                        <h1>我們戀愛了</h1>
-                        <h3 class="timer">
-                            <div class="row">
-                                <b id="d"></b> 天 <b id="h"></b> 时 <b id="m"></b> 分
-                            </div>
-                            <div class="row">
-                                <b id="s"></b> 秒
-                            </div>
-                        </h3>
-                        <p>
-                        </p>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <h4 class="love text-center"><span class="love-son"></span></h4>
-                </div>
+<div class="love-card">
+  <div class="heart">❤️</div>
+  <h1 class="title">我們相愛已經</h1>
+  <div id="days" class="days">0</div>
+  <div class="time" id="timeText"></div>
+</div>
 
-                <div class="row">
-                    <p class="copy text-center col-xs-12 col-sm-12"></p>
-                </div>
+<div class="music-panel" id="musicPanel">
+  <div class="music-title">🎵 愛情音樂</div>
+  <div class="controls">
+    <button id="prev">⏮ 上一首</button>
+    <button id="playBtn">播放</button>
+    <button id="next">下一首 ⏭</button>
+  </div>
+  <div class="speed">
+    <button data-speed="0.75">0.75x</button>
+    <button data-speed="1" class="active">1x</button>
+    <button data-speed="1.25">1.25x</button>
+    <button data-speed="1.5">1.5x</button>
+  </div>
+</div>
 
-                <div id="hans-bolang"></div>
-            </div>
-        </div>
-    </div>
+<button class="music-ball" id="musicBtn">🎵</button>
+<audio id="bgMusic" loop>
 
+<script>
+  const startDate = new Date('2025-12-19T00:00:00');
 
-    <script src="js/jquery-1.11.0.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src='js/Valine.min.js'></script><!-- Valine 评论系统 -->
+  const playlist = [
+    "音樂1.mp3",
+    "音樂2.mp3",
+    "音樂3.mp3"
+  ];
 
-    <!-- 计时器 -->
-    <script>
-        function timer() {
-            var start = new Date(2024, 10, 14, 00, 00, 00); // 2020.07.31 13:14:00
-            var t = new Date() - start;
-            var h = ~~(t / 1000 / 60 / 60 % 24);
-            if (h < 10) {
-                h = "0" + h;
-            }
-            var m = ~~(t / 1000 / 60 % 60);
-            if (m < 10) {
-                m = "0" + m;
-            }
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  const musicPanel = document.getElementById('musicPanel');
+  const playBtn = document.getElementById('playBtn');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const speedBtns = document.querySelectorAll('.speed button');
 
-            var s = ~~(t / 1000 % 60);
-            if (s < 10) {
-                s = "0" + s;
-            }
-            document.getElementById('d').innerHTML = ~~(t / 1000 / 60 / 60 / 24);
-            document.getElementById('h').innerHTML = h;
-            document.getElementById('m').innerHTML = m;
-            document.getElementById('s').innerHTML = s;
-        }
-        timer();
-        setInterval(timer, 1000);
-    </script>
+  let current = 0;
 
-    <script>
-        var oComments = document.querySelector("#comments");
-        var oCommentsTop = Math.round(oComments.offsetTop);
-        //运动框架
-        function move() {
-            // 1. 关闭开启定时器;
-            clearInterval(timer);
-            var timer = setInterval(function () {
-                // 2. 计算速度;
-                var iNow = document.documentElement.scrollTop || document.body.scrollTop; //100
-                iNow = Math.round(iNow);
-                var speed = (oCommentsTop - iNow) / 10;
-                // 3. 速度取整;
-                if (speed > 0) {
-                    speed = Math.ceil(speed);
-                } else {
-                    speed = Math.floor(speed);
-                }
-                document.documentElement.scrollTop = document.body.scrollTop = iNow + speed + 1;
-                // 4. 终止条件;
-                if (iNow >= oCommentsTop) {
-                    clearInterval(timer);
-                }
-            }, 20)
-        }
+  function loadMusic() {
+    bgMusic.src = playlist[current];
+  }
 
-        to_comments.onclick = move;
-    </script>
+  window.addEventListener('load', () => {
+    loadMusic();
+  });
 
-    <!-- 情话接口 -->
-    <script>
-        //进入页面时请求
-        $.ajax({
-            url: 'php/love.php',
-            type: "GET",
-            async: true,
-            data: "type=json",
-            dataType: "json",
-            success: function (loveJson) {
-                let love = loveJson["data"];
-                $(".love-son").append(love);
-            },
-            error: function (textStatus) {
-                console.log(JSON.stringify(textStatus));
-            }
-        });
+  musicBtn.addEventListener('click', () => {
+    musicPanel.classList.toggle('show');
+  });
 
-        //点击时请求
-        $(".love").click(function () {
-            $.ajax({
-                url: 'php/love.php',
-                type: "GET",
-                async: true,
-                data: "type=json",
-                dataType: "json",
-                success: function (loveJson) {
-                    let love = loveJson["data"];
-                    love = `<span class="love-son"">${love}</span>`;
-                    $(".love").children().replaceWith(love);
-                },
-                error: function (textStatus) {
-                    console.log(JSON.stringify(textStatus));
-                }
-            });
-        });
+  playBtn.addEventListener('click', async () => {
+    if (bgMusic.paused) {
+      try { await bgMusic.play(); } catch (e) {}
+      playBtn.textContent = '暫停';
+    } else {
+      bgMusic.pause();
+      playBtn.textContent = '播放';
+    }
+  });
 
-        $("#updatalove").click(function () {
-            $.ajax({
-                url: 'php/love.php',
-                type: "GET",
-                async: true,
-                data: "type=json",
-                dataType: "json",
-                success: function (loveJson) {
-                    let love = loveJson["data"];
-                    love = `<span class="love-son"">${love}</span>`;
-                    $(".love").children().replaceWith(love);
-                },
-                error: function (textStatus) {
-                    console.log(JSON.stringify(textStatus));
-                }
-            });
-        });
-    </script>
+  prevBtn.addEventListener('click', async () => {
+    current = (current - 1 + playlist.length) % playlist.length;
+    loadMusic();
+    try { await bgMusic.play(); } catch (e) {}
+    playBtn.textContent = '暫停';
+  });
 
-    <!-- Valine 评论系统； 由 LeanCloud 管理数据 -->
-    <script>
-        new Valine({
-            el: '',
-            appId: '',
-            appKey: ''
-        })
-    </script>
+  nextBtn.addEventListener('click', async () => {
+    current = (current + 1) % playlist.length;
+    loadMusic();
+    try { await bgMusic.play(); } catch (e) {}
+    playBtn.textContent = '暫停';
+  });
 
-    <!-- 底部波浪 -->
-    <script src="php/wave.php"></script>
+  speedBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      speedBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      bgMusic.playbackRate = parseFloat(btn.dataset.speed);
+    });
+  });
 
+  function countDays() {
+    const now = new Date();
+    const diff = now - startDate;
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const s = Math.floor((diff % (1000*60)) / 1000);
+    document.getElementById('days').innerText = d + ' 天';
+    document.getElementById('timeText').innerText = h + ' 時 ' + m + ' 分 ' + s + ' 秒';
+  }
+
+  countDays();
+  setInterval(countDays, 1000);
+</script>
+
+</body>
 </html>
