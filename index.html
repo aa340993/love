@@ -104,39 +104,24 @@
       font-size: 15px;
     }
 
-    .controls {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
     .controls button {
-      flex:1;
-      padding: 10px 0;
-      border:none;
+      padding: 10px;
+      border: none;
       border-radius: 10px;
       background: #f6f6f6;
-      font-size:14px;
       cursor: pointer;
-    }
-
-    .speed {
-      display: flex;
-      gap:6px;
-      justify-content: center;
     }
 
     .speed button {
       padding: 6px 9px;
-      border:none;
-      border-radius:8px;
-      background:#eee;
-      font-size:13px;
+      border: none;
+      border-radius: 8px;
+      background: #eee;
     }
 
     .speed button.active {
-      background:#ff4d75;
-      color:white;
+      background: #ff4d75;
+      color: white;
     }
   </style>
 </head>
@@ -152,12 +137,12 @@
 
 <div class="music-panel" id="musicPanel">
   <div class="music-title">🎵 愛情音樂</div>
-  <div class="controls">
-    <button id="prev">⏮ 上一首</button>
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <button id="prev">⏮上一首</button>
     <button id="playBtn">播放</button>
-    <button id="next">下一首 ⏭</button>
+    <button id="next">下一首⏭</button>
   </div>
-  <div class="speed">
+  <div style="display:flex;gap:6px;justify-content:center;">
     <button data-speed="0.75">0.75x</button>
     <button data-speed="1" class="active">1x</button>
     <button data-speed="1.25">1.25x</button>
@@ -166,16 +151,11 @@
 </div>
 
 <button class="music-ball" id="musicBtn">🎵</button>
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop autoplay></audio>
 
 <script>
   const startDate = new Date('2025-12-19T00:00:00');
-
-  const playlist = [
-    "音樂1.mp3",
-    "音樂2.mp3",
-    "音樂3.mp3"
-  ];
+  const playlist = ["音樂1.mp3","音樂2.mp3","音樂3.mp3"];
 
   const bgMusic = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicBtn');
@@ -183,70 +163,60 @@
   const playBtn = document.getElementById('playBtn');
   const prevBtn = document.getElementById('prev');
   const nextBtn = document.getElementById('next');
-  const speedBtns = document.querySelectorAll('.speed button');
+  const speedBtns = document.querySelectorAll('[data-speed]');
 
   let current = 0;
 
   function loadMusic() {
     bgMusic.src = playlist[current];
+    bgMusic.load();
   }
 
-  window.addEventListener('load', () => {
+  // 絕對自動播放（最強版本）
+  window.onload = function() {
     loadMusic();
     setTimeout(() => {
-      bgMusic.play().catch(() => {});
-    }, 300);
-  });
+      bgMusic.play().catch(() => {
+        document.addEventListener('click', () => bgMusic.play(), { once: true });
+      });
+      playBtn.textContent = "暫停";
+    }, 500);
+  };
 
-  document.body.addEventListener('click', () => {
-    if (bgMusic.paused) bgMusic.play();
-  }, { once: true });
+  musicBtn.onclick = () => musicPanel.classList.toggle('show');
 
-  musicBtn.addEventListener('click', () => {
-    musicPanel.classList.toggle('show');
-  });
+  playBtn.onclick = () => {
+    if (bgMusic.paused) { bgMusic.play(); playBtn.textContent = "暫停"; }
+    else { bgMusic.pause(); playBtn.textContent = "播放"; }
+  };
 
-  playBtn.addEventListener('click', async () => {
-    if (bgMusic.paused) {
-      try { await bgMusic.play(); } catch (e) {}
-      playBtn.textContent = '暫停';
-    } else {
-      bgMusic.pause();
-      playBtn.textContent = '播放';
-    }
-  });
-
-  prevBtn.addEventListener('click', async () => {
+  prevBtn.onclick = () => {
     current = (current - 1 + playlist.length) % playlist.length;
-    loadMusic();
-    try { await bgMusic.play(); } catch (e) {}
-    playBtn.textContent = '暫停';
-  });
+    loadMusic(); bgMusic.play(); playBtn.textContent = "暫停";
+  };
 
-  nextBtn.addEventListener('click', async () => {
+  nextBtn.onclick = () => {
     current = (current + 1) % playlist.length;
-    loadMusic();
-    try { await bgMusic.play(); } catch (e) {}
-    playBtn.textContent = '暫停';
-  });
+    loadMusic(); bgMusic.play(); playBtn.textContent = "暫停";
+  };
 
-  speedBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      speedBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      bgMusic.playbackRate = parseFloat(btn.dataset.speed);
-    });
+  speedBtns.forEach(b => {
+    b.onclick = () => {
+      speedBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      bgMusic.playbackRate = parseFloat(b.dataset.speed);
+    };
   });
 
   function countDays() {
     const now = new Date();
     const diff = now - startDate;
-    const d = Math.floor(diff / (1000*60*60*24));
-    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const s = Math.floor((diff % (1000*60)) / 1000);
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
     document.getElementById('days').innerText = d + ' 天';
-    document.getElementById('timeText').innerText = h + ' 時 ' + m + ' 分 ' + s + ' 秒';
+    document.getElementById('timeText').innerText = `${h}時 ${m}分 ${s}秒`;
   }
 
   countDays();
